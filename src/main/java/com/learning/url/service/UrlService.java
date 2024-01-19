@@ -11,4 +11,6 @@ public interface UrlService {
     void delete(Long id);
     List<Url> getAll();
     Optional<Url> getOne(Long id);
+    String shortenUrl(String originUrl);
+    String getOriginalUrl(String shortUrl);
 }

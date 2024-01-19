@@ -6,6 +6,7 @@ import com.learning.url.service.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,5 +39,34 @@ public class UrlServiceImpl implements UrlService {
     @Override
     public Optional<Url> getOne(Long id) {
         return urlRepository.findById(id);
+    }
+
+    @Override
+    public String shortenUrl(String originUrl) {
+        // Générer une clé unique pour l'URL
+        String key = generateKey(originUrl);
+
+        // Construire l'URL raccourcie
+        String shortUrl = "http://yourdomain.com/" + key;
+
+        // Enregistrer l'URL dans la base de données
+        Url url = new Url();
+        url.setLongUrl(originUrl);
+        url.setShortUrl(shortUrl);
+        urlRepository.save(url);
+
+        return shortUrl;
+    }
+
+    @Override
+    public String getOriginalUrl(String shortUrl) {
+        Url url = urlRepository.findByShortUrl(shortUrl);
+        return (url != null) ? url.getLongUrl() : null;
+    }
+
+    private String generateKey(String originalUrl) {
+        // Générer une clé unique à partir de l'URL (par exemple, en utilisant Base64)
+        byte[] urlBytes = originalUrl.getBytes();
+        return Base64.getUrlEncoder().encodeToString(urlBytes);
     }
 }
