@@ -1,7 +1,9 @@
 package com.learning.url.controller;
 
+import com.learning.url.dto.request.HttpResponse;
 import com.learning.url.dto.request.UrlDTO;
 import com.learning.url.entity.Url;
+import com.learning.url.repository.UrlRepository;
 import com.learning.url.service.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +17,26 @@ public class UrlController {
     @Autowired
     private UrlService urlService;
 
-    @PostMapping(value = "/add")
-    private ResponseEntity<?> create(@RequestBody UrlDTO urlDTO){
-        Url url =new Url();
-        return null;
-    }
+    private UrlRepository urlRepository;
+
 
     @PostMapping("/shorten")
-    public ResponseEntity<?> shortenUrl(@RequestBody String originalUrl) {
-        // Logique pour raccourcir l'URL et renvoyer l'URL raccourcie
+    public ResponseEntity<HttpResponse<Url>> shortenUrl(@RequestBody UrlDTO urlDTO) {
+        return ResponseEntity.ok().body(urlService.shortenUrl(urlDTO.getLongUrl()));
     }
 
-    @GetMapping("/original/{shortUrl}")
-    public ResponseEntity<?> getOriginalUrl(@PathVariable String shortUrl) {
-        // Logique pour récupérer l'URL d'origine à partir de l'URL raccourcie
+    @PostMapping("/check")
+    public ResponseEntity<?> checkLongUrl(@RequestBody UrlDTO urlDTO) {
+        return ResponseEntity.ok().body(urlService.getOneLongUrl(urlDTO.getLongUrl()));
+    }
+
+    @GetMapping("/{shortUrl}")
+    public String getOriginalUrl(@PathVariable String shortUrl) {
+        String originalUrl = urlService.getOriginalUrl(shortUrl);
+        if (originalUrl != null) {
+            return "redirect:" + originalUrl;
+        } else {
+            return "URL raccourcie non valide";
+        }
     }
 }
