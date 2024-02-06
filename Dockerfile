@@ -11,5 +11,5 @@ RUN mvn clean package -Pprod -DskipTests
 FROM openjdk:11-jdk-slim
 COPY --from=build /target/url-0.0.1-SNAPSHOT.jar url.jar
 # ENV PORT=8080
-EXPOSE 9002
+EXPOSE 8080
 ENTRYPOINT ["java","-jar","url.jar"]
