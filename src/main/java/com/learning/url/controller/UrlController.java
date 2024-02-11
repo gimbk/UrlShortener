@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(value ="*")
+@CrossOrigin(value ="https://shortngo.onrender.com")
 @Controller
 @RequestMapping(value = "/api/url")
 public class UrlController {
