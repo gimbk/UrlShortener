@@ -10,6 +10,10 @@ import java.util.Optional;
 @Repository
 public interface UrlRepository extends JpaRepository<Url,Long> {
     Url findByShortUrl(String shortUrl);
-    
+    @Query(
+            value = "SELECT * \n" +
+                    "FROM url \n" +
+                    "WHERE longUrl =:longUrl",
+            nativeQuery = true)
     Optional<Url> findByLongUrl(String longUrl);
 }

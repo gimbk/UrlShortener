@@ -1,6 +1,5 @@
 package com.learning.url.controller;
 
-import com.learning.url.dto.request.HttpResponse;
 import com.learning.url.dto.request.UrlDTO;
 import com.learning.url.entity.Url;
 import com.learning.url.repository.UrlRepository;
