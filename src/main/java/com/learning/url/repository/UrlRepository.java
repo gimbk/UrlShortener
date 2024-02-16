@@ -10,6 +10,5 @@ import java.util.Optional;
 @Repository
 public interface UrlRepository extends JpaRepository<Url,Long> {
     Url findByShortUrl(String shortUrl);
-
     Optional<Url> findByLongUrl(String longUrl);
 }
