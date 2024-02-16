@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @CrossOrigin(value ="https://shortngo.onrender.com")
 @Controller
 @RequestMapping(value = "/api/url")
@@ -19,10 +21,15 @@ public class UrlController {
 
     private UrlRepository urlRepository;
 
-
     @PostMapping("/shorten")
-    public ResponseEntity<HttpResponse<Url>> shortenUrl(@RequestBody UrlDTO urlDTO) {
-        return ResponseEntity.ok().body(urlService.shortenUrl(urlDTO.getLongUrl()));
+    public ResponseEntity<?> shortenUrl(@RequestBody UrlDTO urlDTO) {
+        Optional<Url> optionalUrl = urlRepository.findByLongUrl(urlDTO.getLongUrl());
+        if (optionalUrl.isPresent()){
+            return ResponseEntity.ok().body(optionalUrl);
+        }else {
+            return ResponseEntity.ok().body(urlService.shortenUrl(urlDTO.getLongUrl()));
+        }
+
     }
 
     @PostMapping("/check")
