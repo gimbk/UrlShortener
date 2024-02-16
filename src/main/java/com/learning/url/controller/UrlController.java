@@ -13,24 +13,24 @@ import java.util.Optional;
 
 @CrossOrigin(value ="https://shortngo.onrender.com")
 @Controller
-@RequestMapping(value = "/api/url")
+@RequestMapping(value = "/")
 public class UrlController {
     @Autowired
     private UrlService urlService;
 
     private UrlRepository urlRepository;
 
-    @PostMapping("/shorten")
+    @PostMapping("api/url/shorten")
     public ResponseEntity<?> shortenUrl(@RequestBody UrlDTO urlDTO) {
         return ResponseEntity.ok().body(urlService.shortenUrl(urlDTO.getLongUrl()));
     }
 
-    @PostMapping("/check")
+    @PostMapping("api/url/check")
     public ResponseEntity<?> checkLongUrl(@RequestBody UrlDTO urlDTO) {
         return ResponseEntity.ok().body(urlService.getOneLongUrl(urlDTO.getLongUrl()));
     }
 
-    @GetMapping("/{shortUrl}")
+    @GetMapping("{shortUrl}")
     public String getOriginalUrl(@PathVariable String shortUrl) {
         String originalUrl = urlService.getOriginalUrl(shortUrl);
         if (originalUrl != null) {
