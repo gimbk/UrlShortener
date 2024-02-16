@@ -22,13 +22,7 @@ public class UrlController {
 
     @PostMapping("/shorten")
     public ResponseEntity<?> shortenUrl(@RequestBody UrlDTO urlDTO) {
-        Optional<Url> optionalUrl = urlRepository.findByLongUrl(urlDTO.getLongUrl());
-        if (optionalUrl.isPresent()){
-            return ResponseEntity.ok().body(optionalUrl);
-        }else {
-            return ResponseEntity.ok().body(urlService.shortenUrl(urlDTO.getLongUrl()));
-        }
-
+        return ResponseEntity.ok().body(urlService.shortenUrl(urlDTO.getLongUrl()));
     }
 
     @PostMapping("/check")
